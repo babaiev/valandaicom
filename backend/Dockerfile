@@ -12,11 +12,10 @@ COPY . ./
 # Install production dependencies.
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run migrations and collect static files
-# (In a real production environment with a managed DB, you might want to run migrations separately)
-RUN python manage.py migrate
+# Run collectstatic (safe to run at build time)
 RUN python manage.py collectstatic --no-input
 
 # Run the web service on container startup. 
 # Cloud Run injects the PORT environment variable.
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 core.wsgi:application
+# Run migrations before starting the gunicorn server to ensure DB is up to date.
+CMD ["sh", "-c", "python manage.py migrate && exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 core.wsgi:application"]
