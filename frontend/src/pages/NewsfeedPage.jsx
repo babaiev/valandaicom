@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { fetchNewsfeed } from '../api';
 
 const NewsfeedPage = () => {
@@ -16,6 +17,10 @@ const NewsfeedPage = () => {
 
   return (
     <div className="page-container fade-in">
+      <Helmet>
+        <title>VAL3R11 | AI Newsfeed</title>
+        <meta name="description" content="Latest updates and curations from the AI world by VAL3R11." />
+      </Helmet>
       <header className="page-header">
         <h1>AI Newsfeed</h1>
         <p>Latest updates and curations from the AI world.</p>

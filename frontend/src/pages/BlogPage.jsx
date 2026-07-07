@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { fetchBlogPosts } from '../api';
 
 const BlogPage = () => {
@@ -16,6 +17,10 @@ const BlogPage = () => {
 
   return (
     <div className="page-container fade-in">
+      <Helmet>
+        <title>VAL3R11 | Blog</title>
+        <meta name="description" content="Thoughts, tutorials, and articles on software engineering by VAL3R11." />
+      </Helmet>
       <header className="page-header">
         <h1>My Blog</h1>
         <p>Thoughts, tutorials, and articles on software engineering.</p>

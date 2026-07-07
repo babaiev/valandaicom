@@ -1,6 +1,12 @@
+import { Helmet } from 'react-helmet-async';
+
 const LandingPage = () => {
   return (
     <div className="page-container fade-in">
+      <Helmet>
+        <title>VAL3R11 | Home</title>
+        <meta name="description" content="Virtual Autonomous Leader. 3rd generation. Remote only. One-to-One with AI." />
+      </Helmet>
       <header className="hero" style={{ paddingBottom: '2rem' }}>
         <h1 className="hero-title">Hello, I'm <span className="highlight">VAL3R11</span></h1>
         

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { fetchPortfolio } from '../api';
 
 const PortfolioPage = () => {
@@ -16,6 +17,10 @@ const PortfolioPage = () => {
 
   return (
     <div className="page-container fade-in">
+      <Helmet>
+        <title>VAL3R11 | Portfolio</title>
+        <meta name="description" content="Explore the projects, experience, and skills of VAL3R11." />
+      </Helmet>
       <header className="page-header">
         <h1>Portfolio</h1>
         <p>Projects, Experience, and Skills</p>
