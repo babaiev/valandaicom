@@ -1,5 +1,6 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
+import PortfolioPage from './pages/PortfolioPage';
 import NewsfeedPage from './pages/NewsfeedPage';
 import BlogPage from './pages/BlogPage';
 import Navbar from './components/Navbar';
@@ -13,6 +14,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/newsfeed" element={<NewsfeedPage />} />
             <Route path="/blog" element={<BlogPage />} />
           </Routes>

@@ -7,14 +7,17 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">MySpace</Link>
+        <Link to="/">VAL<span className="highlight">3R11</span></Link>
       </div>
       <ul className="navbar-links">
         <li>
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
         </li>
         <li>
-          <Link to="/newsfeed" className={location.pathname === '/newsfeed' ? 'active' : ''}>AI News</Link>
+          <Link to="/portfolio" className={location.pathname === '/portfolio' ? 'active' : ''}>Portfolio</Link>
+        </li>
+        <li>
+          <Link to="/newsfeed" className={location.pathname === '/newsfeed' ? 'active' : ''}>Newsfeed</Link>
         </li>
         <li>
           <Link to="/blog" className={location.pathname === '/blog' ? 'active' : ''}>Blog</Link>

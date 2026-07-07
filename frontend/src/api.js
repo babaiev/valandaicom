@@ -1,0 +1,40 @@
+const API_BASE_URL = 'https://personal-website-backend-211504890015.us-central1.run.app/api';
+
+export const fetchPortfolio = async () => {
+    try {
+        const [projectsRes, experiencesRes, skillsRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/portfolio/projects/`),
+            fetch(`${API_BASE_URL}/portfolio/experiences/`),
+            fetch(`${API_BASE_URL}/portfolio/skills/`)
+        ]);
+        
+        return {
+            projects: await projectsRes.json(),
+            experiences: await experiencesRes.json(),
+            skills: await skillsRes.json()
+        };
+    } catch (error) {
+        console.error("Error fetching portfolio:", error);
+        return { projects: [], experiences: [], skills: [] };
+    }
+};
+
+export const fetchBlogPosts = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/blog/posts/`);
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching blog posts:", error);
+        return [];
+    }
+};
+
+export const fetchNewsfeed = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/newsfeed/items/`);
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching newsfeed:", error);
+        return [];
+    }
+};
