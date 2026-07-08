@@ -23,10 +23,11 @@ jobs:
           cd backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Tests
+      - name: Run Tests & Coverage
         run: |
           cd backend
-          python manage.py test
+          coverage run manage.py test
+          coverage report
 
   test-frontend:
     name: Test React Frontend
@@ -41,10 +42,10 @@ jobs:
         run: |
           cd frontend
           npm install
-      - name: Run Tests
+      - name: Run Tests & Coverage
         run: |
           cd frontend
-          npm run test -- --run
+          npm run test -- --run --coverage
 
   deploy:
     name: Deploy to Production

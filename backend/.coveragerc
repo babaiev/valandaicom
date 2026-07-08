@@ -1,0 +1,11 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    manage.py
+    core/wsgi.py
+    core/asgi.py
+    create_admin.py
+
+[report]
+show_missing = True
