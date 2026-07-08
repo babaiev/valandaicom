@@ -62,6 +62,7 @@ describe('api functions', () => {
     const mockData = { id: 1, email: 'test@test.com' };
     global.fetch.mockResolvedValueOnce({
       ok: true,
+      headers: { get: () => 'application/json' },
       json: async () => mockData
     });
     
@@ -72,6 +73,7 @@ describe('api functions', () => {
   it('subscribeEmail handles API errors', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: false,
+      headers: { get: () => 'application/json' },
       json: async () => ({ email: ['This email is already subscribed.'] })
     });
     

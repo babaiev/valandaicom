@@ -49,6 +49,11 @@ export const subscribeEmail = async (email) => {
             body: JSON.stringify({ email })
         });
         
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Server returned an unexpected response (${response.status}). The backend might still be deploying.`);
+        }
+
         if (!response.ok) {
             const data = await response.json();
             throw new Error(data.email?.[0] || 'Subscription failed');
