@@ -11,7 +11,9 @@ vi.mock('../api', () => ({
   likePost: vi.fn(),
   unlikePost: vi.fn(),
   dislikePost: vi.fn(),
-  undislikePost: vi.fn()
+  undislikePost: vi.fn(),
+  fetchComments: vi.fn(() => Promise.resolve([])),
+  postComment: vi.fn()
 }));
 
 describe('BlogPostPage', () => {

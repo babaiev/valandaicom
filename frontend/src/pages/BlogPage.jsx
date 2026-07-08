@@ -47,6 +47,7 @@ const BlogPage = () => {
                     <span>👁 {post.view_count || 0}</span>
                     <span style={{ color: reaction === 'like' ? 'var(--accent-color)' : 'inherit', fontWeight: reaction === 'like' ? 'bold' : 'normal' }}>👍 {post.likes || 0}</span>
                     <span style={{ color: reaction === 'dislike' ? '#ff4d4f' : 'inherit', fontWeight: reaction === 'dislike' ? 'bold' : 'normal' }}>👎 {post.dislikes || 0}</span>
+                    <span>💬 {post.comment_count || 0}</span>
                   </div>
                 </div>
                 <h2>{post.title}</h2>

@@ -1,14 +1,33 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Post
-from .serializers import PostSerializer
+from django.db.models import Count
+from .models import Post, Comment
+from .serializers import PostSerializer, CommentSerializer
 
 class PostViewSet(viewsets.ReadOnlyModelViewSet):
-    # Only return published posts by default
-    queryset = Post.objects.filter(is_published=True)
+    # Only return published posts by default, annotate with comment_count
+    queryset = Post.objects.filter(is_published=True).annotate(
+        comment_count=Count('comments')
+    )
     serializer_class = PostSerializer
     lookup_field = 'slug'
+
+    @action(detail=True, methods=['get', 'post'])
+    def comments(self, request, slug=None):
+        post = self.get_object()
+        
+        if request.method == 'GET':
+            comments = post.comments.all()
+            serializer = CommentSerializer(comments, many=True)
+            return Response(serializer.data)
+            
+        elif request.method == 'POST':
+            serializer = CommentSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(post=post)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
     def like(self, request, slug=None):

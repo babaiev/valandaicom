@@ -88,6 +88,37 @@ export const undislikePost = async (slug) => {
     }
 };
 
+export const fetchComments = async (slug) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/blog/posts/${slug}/comments/`);
+        if (!res.ok) throw new Error('Failed to fetch comments');
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        return [];
+    }
+};
+
+export const postComment = async (slug, name, content) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/blog/posts/${slug}/comments/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, content })
+        });
+        if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.detail || 'Failed to post comment');
+        }
+        return await res.json();
+    } catch (error) {
+        console.error("Error posting comment:", error);
+        throw error;
+    }
+};
+
 export const fetchNewsfeed = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}/newsfeed/items/`);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { fetchBlogPost, incrementPostView, likePost, unlikePost, dislikePost, undislikePost } from '../api';
+import { fetchBlogPost, incrementPostView, likePost, unlikePost, dislikePost, undislikePost, fetchComments, postComment } from '../api';
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -12,6 +12,17 @@ const BlogPostPage = () => {
   const [localDislikes, setLocalDislikes] = useState(0);
   const [viewed, setViewed] = useState(false);
   const [reaction, setReaction] = useState(null); // 'like', 'dislike', or null
+
+  const [comments, setComments] = useState([]);
+  const [commentName, setCommentName] = useState('');
+  const [commentText, setCommentText] = useState('');
+  const [commentStep, setCommentStep] = useState('IDLE'); // IDLE, CAPTCHA, LOADING, SUCCESS, ERROR
+  const [commentError, setCommentError] = useState('');
+  
+  // Captcha state
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
 
   useEffect(() => {
     const loadPost = async () => {
@@ -28,14 +39,23 @@ const BlogPostPage = () => {
           setReaction(savedReaction);
         }
 
-        const savedViewed = localStorage.getItem(`viewed_${slug}`);
-        if (!savedViewed) {
-          incrementPostView(slug);
-          localStorage.setItem(`viewed_${slug}`, 'true');
-          setViewed(true);
+        if (typeof window !== 'undefined' && window.localStorage) {
+          const savedViewed = window.localStorage.getItem(`viewed_${slug}`);
+          if (!savedViewed) {
+            incrementPostView(slug);
+            window.localStorage.setItem(`viewed_${slug}`, 'true');
+            setViewed(true);
+          } else {
+            setViewed(false);
+          }
         } else {
-          setViewed(false);
+          incrementPostView(slug);
+          setViewed(true);
         }
+
+        const commentsData = await fetchComments(slug);
+        setComments(commentsData);
+
       } else {
         setError("Blog post not found.");
       }
@@ -43,6 +63,42 @@ const BlogPostPage = () => {
     };
     loadPost();
   }, [slug, viewed]);
+
+  const handleCommentSubmitClick = () => {
+    if (!commentName.trim() || !commentText.trim()) {
+      setCommentError('Name and comment are required.');
+      return;
+    }
+    setCommentError('');
+    setNum1(Math.floor(Math.random() * 10) + 1);
+    setNum2(Math.floor(Math.random() * 10) + 1);
+    setCommentStep('CAPTCHA');
+  };
+
+  const handleCaptchaSubmit = async () => {
+    if (parseInt(captchaAnswer) !== num1 + num2) {
+      setCommentError('Incorrect answer. Please try again.');
+      setNum1(Math.floor(Math.random() * 10) + 1);
+      setNum2(Math.floor(Math.random() * 10) + 1);
+      setCaptchaAnswer('');
+      return;
+    }
+
+    setCommentStep('LOADING');
+    setCommentError('');
+    try {
+      const newComment = await postComment(slug, commentName, commentText);
+      setComments([...comments, newComment]);
+      setCommentStep('SUCCESS');
+      setCommentName('');
+      setCommentText('');
+      setCaptchaAnswer('');
+      setTimeout(() => setCommentStep('IDLE'), 3000);
+    } catch (err) {
+      setCommentStep('ERROR');
+      setCommentError(err.message || 'Something went wrong.');
+    }
+  };
 
   const handleLike = async () => {
     if (reaction === 'like') {
@@ -166,6 +222,98 @@ const BlogPostPage = () => {
           </button>
         </div>
       </article>
+
+      {/* Comments Section */}
+      <section className="comments-section" style={{ marginTop: '3rem' }}>
+        <h2 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Comments ({comments.length})</h2>
+        
+        <div className="comments-list" style={{ marginBottom: '2rem' }}>
+          {comments.map((comment, index) => (
+            <div key={index} className="card" style={{ padding: '1rem', marginBottom: '1rem', background: 'var(--bg-color)', border: '1px solid var(--border-color)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <strong style={{ color: 'var(--text-primary)' }}>{comment.name}</strong>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  {new Date(comment.created_at).toLocaleString()}
+                </span>
+              </div>
+              <p style={{ margin: 0, color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>{comment.content}</p>
+            </div>
+          ))}
+          {comments.length === 0 && (
+            <p style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>No comments yet. Be the first to share your thoughts!</p>
+          )}
+        </div>
+
+        <div className="card comment-form" style={{ padding: '2rem' }}>
+          <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Leave a Comment</h3>
+          
+          {commentStep === 'IDLE' || commentStep === 'ERROR' ? (
+            <>
+              {commentError && <div style={{ color: '#ff4d4f', marginBottom: '1rem' }}>{commentError}</div>}
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Name *</label>
+                <input 
+                  type="text" 
+                  value={commentName}
+                  onChange={(e) => setCommentName(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-primary)' }}
+                  placeholder="Your Name"
+                  required
+                />
+              </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Comment *</label>
+                <textarea 
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-primary)', minHeight: '100px', resize: 'vertical' }}
+                  placeholder="What are your thoughts?"
+                  required
+                />
+              </div>
+              <button 
+                onClick={handleCommentSubmitClick}
+                style={{ background: 'var(--accent-color)', border: 'none', padding: '0.75rem 1.5rem', color: '#08110c', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                Submit Comment
+              </button>
+            </>
+          ) : commentStep === 'CAPTCHA' ? (
+            <div>
+              <p style={{ marginBottom: '1rem' }}>To prove you are human, please solve this math problem:</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{num1} + {num2} = </span>
+                <input 
+                  type="number" 
+                  value={captchaAnswer} 
+                  onChange={(e) => setCaptchaAnswer(e.target.value)}
+                  style={{ width: '80px', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-primary)' }}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button 
+                  onClick={handleCaptchaSubmit}
+                  style={{ background: 'var(--accent-color)', border: 'none', padding: '0.5rem 1rem', color: '#08110c', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer' }}
+                >
+                  Verify
+                </button>
+                <button 
+                  onClick={() => setCommentStep('IDLE')}
+                  style={{ background: 'transparent', border: '1px solid var(--border-color)', padding: '0.5rem 1rem', color: 'var(--text-primary)', borderRadius: '4px', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : commentStep === 'LOADING' ? (
+            <div style={{ textAlign: 'center', padding: '2rem 0' }}>Posting your comment...</div>
+          ) : commentStep === 'SUCCESS' ? (
+            <div style={{ textAlign: 'center', padding: '2rem 0', color: 'var(--accent-color)', fontWeight: 'bold' }}>
+              Comment posted successfully!
+            </div>
+          ) : null}
+        </div>
+      </section>
     </div>
   );
 };
