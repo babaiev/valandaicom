@@ -1,29 +1,43 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = ({ onSubscribeClick }) => {
-  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/"><span className="highlight">VAL3R11</span></Link>
+        <Link to="/" onClick={closeMenu}><span className="logo-orange">VAL</span><span className="highlight">3R11</span></Link>
       </div>
-      <ul className="navbar-links">
+      <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? '✕' : '☰'}
+      </button>
+      <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
         <li>
-          <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to="/portfolio" className={location.pathname === '/portfolio' ? 'active' : ''}>Portfolio</Link>
+          <NavLink to="/portfolio" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+            Portfolio
+          </NavLink>
         </li>
         <li>
-          <Link to="/newsfeed" className={location.pathname === '/newsfeed' ? 'active' : ''}>Newsfeed</Link>
+          <NavLink to="/newsfeed" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+            Newsfeed
+          </NavLink>
         </li>
         <li>
-          <Link to="/blog" className={location.pathname === '/blog' ? 'active' : ''}>Blog</Link>
+          <NavLink to="/blog" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+            Blog
+          </NavLink>
         </li>
         <li>
-          <button className="subscribe-btn-nav" onClick={onSubscribeClick}>Subscribe</button>
+          <button className="subscribe-btn-nav" onClick={() => { onSubscribeClick(); closeMenu(); }}>Subscribe</button>
         </li>
       </ul>
     </nav>

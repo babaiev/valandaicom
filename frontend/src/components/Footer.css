@@ -22,3 +22,13 @@
   font-size: 0.8rem;
   opacity: 0.6;
 }
+
+@media (max-width: 768px) {
+  .footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+  }
+}
