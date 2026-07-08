@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/portfolio/', include('portfolio.urls')),
     path('api/blog/', include('blog.urls')),
     path('api/newsfeed/', include('newsfeed.urls')),
+    path('api/subscribers/', include('subscribers.urls')),
 ]

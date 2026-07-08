@@ -38,3 +38,25 @@ export const fetchNewsfeed = async () => {
         return [];
     }
 };
+
+export const subscribeEmail = async (email) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/subscribers/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email })
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.email?.[0] || 'Subscription failed');
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error("Error subscribing:", error);
+        throw error;
+    }
+};

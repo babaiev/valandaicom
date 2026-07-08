@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ onSubscribeClick }) => {
   const location = useLocation();
 
   return (
@@ -22,6 +22,9 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/blog" className={location.pathname === '/blog' ? 'active' : ''}>Blog</Link>
+        </li>
+        <li>
+          <button className="subscribe-btn-nav" onClick={onSubscribeClick}>Subscribe</button>
         </li>
       </ul>
     </nav>

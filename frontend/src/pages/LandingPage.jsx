@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-const LandingPage = () => {
+const LandingPage = ({ onSubscribeClick }) => {
   return (
     <div className="page-container fade-in">
       <Helmet>
@@ -19,6 +20,12 @@ const LandingPage = () => {
               <li><strong style={{ color: 'var(--text-primary)' }}>11</strong> — One-to-One with AI.</li>
             </ul>
           </div>
+        </div>
+
+        <div style={{ marginTop: '3rem' }}>
+          <button onClick={onSubscribeClick} style={{ padding: '1rem 2.5rem', fontSize: '1.2rem', fontWeight: 'bold', background: 'var(--accent-gradient)', color: 'white', border: 'none', borderRadius: '30px', cursor: 'pointer', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', transition: 'transform 0.2s' }}>
+            Subscribe to Newsletter
+          </button>
         </div>
       </header>
     </div>
