@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">72.72% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>16/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">92.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
@@ -136,7 +136,20 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,6 +184,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,17 +268,30 @@ const BlogPage = () =&gt; {
         &lt;div style={{ textAlign: 'center', marginTop: '2rem' }}&gt;Loading posts...&lt;/div&gt;
       ) : (
         &lt;div className="blog-grid"&gt;
-          {posts.length &gt; 0 ? posts.map((post) =&gt; (
-            &lt;article key={post.id} className="card blog-card"&gt;
-              {post.cover_image &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;img src={post.cover_image} alt={post.title} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }} /&gt;}</span>
-              &lt;div className="blog-meta"&gt;
-                &lt;span className="date"&gt;{new Date(post.published_at || post.created_at).toLocaleDateString()}&lt;/span&gt;
-              &lt;/div&gt;
-              &lt;h2&gt;{post.title}&lt;/h2&gt;
-              &lt;p&gt;{post.content.substring(0, 150)}...&lt;/p&gt;
-              &lt;Link to={`/blog/${post.slug}`} className="read-more" style={{ display: 'inline-block', marginTop: '1rem', background: 'var(--accent-color)', border: 'none', padding: '0.5rem 1rem', color: '#08110c', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}&gt;Read Article&lt;/Link&gt;
-            &lt;/article&gt;
-          )) : (
+          {posts.length &gt; 0 ? posts.map((post) =&gt; {
+            const reaction = localStorage.getItem(`reaction_${post.slug}`);
+            return (
+              &lt;article 
+                key={post.id} 
+                className="card blog-card" 
+<span class="fstat-no" title="function not covered" >                onClick={() =&gt; <span class="cstat-no" title="statement not covered" >w</span>indow.location.hash = `#/blog/${post.slug}`}</span>
+                style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
+              &gt;
+                {post.cover_image &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;img src={post.cover_image} alt={post.title} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }} /&gt;}</span>
+                &lt;div className="blog-meta"&gt;
+                  &lt;span className="date"&gt;{new Date(post.published_at || post.created_at).toLocaleDateString()}&lt;/span&gt;
+                  &lt;div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', color: 'var(--text-secondary)' }}&gt;
+                    &lt;span&gt;👁 {post.view_count || 0}&lt;/span&gt;
+                    &lt;span style={{ color: reaction === 'like' ? <span class="branch-0 cbranch-no" title="branch not covered" >'var(--accent-color)' : '</span>inherit', fontWeight: reaction === 'like' ? <span class="branch-0 cbranch-no" title="branch not covered" >'bold' : '</span>normal' }}&gt;👍 {post.likes || 0}&lt;/span&gt;
+                    &lt;span style={{ color: reaction === 'dislike' ? <span class="branch-0 cbranch-no" title="branch not covered" >'#ff4d4f' : '</span>inherit', fontWeight: reaction === 'dislike' ? <span class="branch-0 cbranch-no" title="branch not covered" >'bold' : '</span>normal' }}&gt;👎 {post.dislikes || 0}&lt;/span&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;h2&gt;{post.title}&lt;/h2&gt;
+                &lt;p&gt;{post.content.substring(0, 150)}...&lt;/p&gt;
+                &lt;div style={{ marginTop: '1rem', color: 'var(--accent-color)', fontWeight: 'bold' }}&gt;Read Article →&lt;/div&gt;
+              &lt;/article&gt;
+            );
+          }) : (
 <span class="branch-1 cbranch-no" title="branch not covered" >            &lt;&gt;</span>
               {/* Fallback Mock Data */}
               &lt;article className="card blog-card"&gt;
@@ -289,7 +328,7 @@ export default BlogPage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-08T16:13:01.842Z
+                at 2026-07-08T16:46:46.823Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

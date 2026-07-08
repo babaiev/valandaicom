@@ -28,9 +28,13 @@ const BlogPostPage = () => {
           setReaction(savedReaction);
         }
 
-        if (!viewed) {
+        const savedViewed = localStorage.getItem(`viewed_${slug}`);
+        if (!savedViewed) {
           incrementPostView(slug);
+          localStorage.setItem(`viewed_${slug}`, 'true');
           setViewed(true);
+        } else {
+          setViewed(false);
         }
       } else {
         setError("Blog post not found.");

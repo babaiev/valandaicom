@@ -7,6 +7,11 @@ import * as api from '../api';
 
 vi.mock('../api', () => ({
   fetchBlogPost: vi.fn(),
+  incrementPostView: vi.fn(),
+  likePost: vi.fn(),
+  unlikePost: vi.fn(),
+  dislikePost: vi.fn(),
+  undislikePost: vi.fn()
 }));
 
 describe('BlogPostPage', () => {
