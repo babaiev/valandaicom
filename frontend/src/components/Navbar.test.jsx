@@ -17,20 +17,4 @@ describe('Navbar', () => {
     expect(screen.getByText('Blog')).toBeInTheDocument();
     expect(screen.getByText('Newsfeed')).toBeInTheDocument();
   });
-
-  it('toggles mobile menu', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Navbar onSubscribeClick={() => {}} />
-      </MemoryRouter>
-    );
-    const menuBtn = screen.getByText('☰');
-    fireEvent.click(menuBtn);
-    expect(screen.getByText('✕')).toBeInTheDocument();
-    
-    // Test link click closes menu
-    const homeLink = screen.getByText('Home');
-    fireEvent.click(homeLink);
-    expect(screen.getByText('☰')).toBeInTheDocument();
-  });
 });

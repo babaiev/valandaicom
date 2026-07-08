@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { fetchBlogPosts } from '../api';
 
@@ -38,7 +39,7 @@ const BlogPage = () => {
               </div>
               <h2>{post.title}</h2>
               <p>{post.content.substring(0, 150)}...</p>
-              <button className="read-more" style={{ marginTop: '1rem', background: 'var(--accent-gradient)', border: 'none', padding: '0.5rem 1rem', color: 'white', borderRadius: '4px', cursor: 'pointer' }}>Read Article</button>
+              <Link to={`/blog/${post.slug}`} className="read-more" style={{ display: 'inline-block', marginTop: '1rem', background: 'var(--accent-color)', border: 'none', padding: '0.5rem 1rem', color: '#08110c', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer', textDecoration: 'none' }}>Read Article</Link>
             </article>
           )) : (
             <>

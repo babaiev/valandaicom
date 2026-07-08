@@ -1,52 +1,35 @@
-import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = ({ onSubscribeClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const closeMenu = () => setIsOpen(false);
-
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : 'at-top'}`}>
+    <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/" onClick={closeMenu}><span className="logo-orange">VAL</span><span className="highlight">3R11</span></Link>
+        <Link to="/"><span className="logo-orange">VAL</span><span className="highlight">3R11</span></Link>
       </div>
-      <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? '✕' : '☰'}
-      </button>
-      <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
+      <ul className="navbar-links">
         <li>
-          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/portfolio" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+          <NavLink to="/portfolio" className={({ isActive }) => (isActive ? 'active' : '')}>
             Portfolio
           </NavLink>
         </li>
         <li>
-          <NavLink to="/newsfeed" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+          <NavLink to="/newsfeed" className={({ isActive }) => (isActive ? 'active' : '')}>
             Newsfeed
           </NavLink>
         </li>
         <li>
-          <NavLink to="/blog" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeMenu}>
+          <NavLink to="/blog" className={({ isActive }) => (isActive ? 'active' : '')}>
             Blog
           </NavLink>
         </li>
         <li>
-          <button className="subscribe-btn-nav" onClick={() => { onSubscribeClick(); closeMenu(); }}>Subscribe</button>
+          <button className="subscribe-btn-nav" onClick={onSubscribeClick}>Subscribe</button>
         </li>
       </ul>
     </nav>

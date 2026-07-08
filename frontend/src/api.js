@@ -29,6 +29,17 @@ export const fetchBlogPosts = async () => {
     }
 };
 
+export const fetchBlogPost = async (slug) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/blog/posts/${slug}/`);
+        if (!res.ok) throw new Error("Post not found");
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching blog post:", error);
+        return null;
+    }
+};
+
 export const fetchNewsfeed = async () => {
     try {
         const res = await fetch(`${API_BASE_URL}/newsfeed/items/`);

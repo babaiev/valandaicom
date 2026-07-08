@@ -7,6 +7,7 @@ import SubscribeModal from './components/SubscribeModal';
 import LandingPage from './pages/LandingPage';
 import PortfolioPage from './pages/PortfolioPage';
 import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 import NewsfeedPage from './pages/NewsfeedPage';
 import './App.css';
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/newsfeed" element={<NewsfeedPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Routes>
         </main>
         <Footer />
