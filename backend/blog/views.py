@@ -9,7 +9,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     # Only return published posts by default, annotate with comment_count
     queryset = Post.objects.filter(is_published=True).annotate(
         comment_count=Count('comments')
-    )
+    ).order_by('-created_at')
     serializer_class = PostSerializer
     lookup_field = 'slug'
 
