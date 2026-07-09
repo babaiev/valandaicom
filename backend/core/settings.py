@@ -131,6 +131,31 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+import sys
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage" if 'test' not in sys.argv else "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "bucket_name": "val3r11-media-bucket-211504890015",
+            "default_acl": "publicRead",
+            "querystring_auth": False,
+        } if 'test' not in sys.argv else {},
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Media files
+MEDIA_URL = f"https://storage.googleapis.com/val3r11-media-bucket-211504890015/"
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True # For development only
 

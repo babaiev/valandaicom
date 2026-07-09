@@ -11,6 +11,7 @@ class BlogModelTests(TestCase):
 
 class BlogAPITests(TestCase):
     def setUp(self):
+        Post.objects.all().delete()
         self.client = APIClient()
         self.published_post = Post.objects.create(
             title="Published", slug="published", content="Content", is_published=True
