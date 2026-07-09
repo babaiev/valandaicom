@@ -24,17 +24,6 @@ class SubscribeView(APIView):
         
         return Response({'message': 'Subscribed successfully'}, status=status.HTTP_201_CREATED)
 
-@csrf_exempt
-def trigger_email_queue(request):
-    if request.method == 'POST':
-        # Optional: Add security header check here if desired
-        try:
-            call_command('process_email_queue')
-            return JsonResponse({'status': 'queue processed'})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    return HttpResponse(status=405)
-
 def unsubscribe(request, token):
     subscriber = get_object_or_404(Subscriber, unsubscribe_token=token)
     
