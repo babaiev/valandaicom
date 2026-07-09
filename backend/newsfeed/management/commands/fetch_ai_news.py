@@ -1,5 +1,5 @@
 import feedparser
-from datetime import datetime
+from datetime import datetime, timedelta
 from email.utils import parsedate_to_datetime
 from django.core.management.base import BaseCommand
 from django.utils.html import strip_tags
@@ -20,17 +20,30 @@ FEEDS = [
     {
         'name': 'MarkTechPost',
         'url': 'https://www.marktechpost.com/category/artificial-intelligence/feed/'
+    },
+    {
+        'name': 'The Verge',
+        'url': 'https://www.theverge.com/rss/index.xml'
     }
 ]
 
 class Command(BaseCommand):
-    help = 'Fetches AI news from specified RSS feeds'
+    help = 'Fetches AI news from specified RSS feeds and cleans up old articles'
 
     def handle(self, *args, **kwargs):
         self.stdout.write("Starting AI news fetch...")
         
+        # Cleanup routine: delete articles older than 30 days
+        cleanup_threshold = timezone.now() - timedelta(days=30)
+        deleted_count, _ = AINewsItem.objects.filter(published_at__lt=cleanup_threshold).delete()
+        if deleted_count > 0:
+            self.stdout.write(f"Cleaned up {deleted_count} old articles.")
+        
         items_added = 0
         items_skipped = 0
+        
+        # Freshness threshold: ignore RSS items older than 14 days
+        freshness_threshold = timezone.now() - timedelta(days=14)
 
         for feed_config in FEEDS:
             self.stdout.write(f"Fetching from {feed_config['name']}...")
@@ -54,9 +67,16 @@ class Command(BaseCommand):
                 published_at = timezone.now()
                 if hasattr(entry, 'published'):
                     try:
-                        published_at = parsedate_to_datetime(entry.published)
+                        parsed_date = parsedate_to_datetime(entry.published)
+                        if parsed_date:
+                            published_at = parsed_date
                     except Exception:
                         pass
+                
+                # Skip if article is too old
+                if published_at < freshness_threshold:
+                    items_skipped += 1
+                    continue
                 
                 # Extract image (try media_content first, then check enclosures or summary)
                 image_url = None
