@@ -58,11 +58,11 @@ def mailersend_webhook(request):
                 if not email and 'email' in event:
                     email = event['email']
                     
-                if event_type in ['activity.bounced', 'activity.spam_complaint'] and email:
+                if event_type in ['activity.bounced', 'activity.hard_bounced', 'activity.spam_complaint'] and email:
                     try:
                         subscriber = Subscriber.objects.get(email=email)
                         subscriber.is_active = False
-                        if event_type == 'activity.bounced':
+                        if event_type in ['activity.bounced', 'activity.hard_bounced']:
                             subscriber.is_bounced = True
                         elif event_type == 'activity.spam_complaint':
                             subscriber.is_spam_complaint = True
