@@ -138,7 +138,7 @@ STORAGES = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage" if 'test' not in sys.argv else "django.core.files.storage.FileSystemStorage",
         "OPTIONS": {
             "bucket_name": "val3r11-media-bucket-211504890015",
-            "default_acl": "publicRead",
+            "default_acl": None,
             "querystring_auth": False,
         } if 'test' not in sys.argv else {},
     },
