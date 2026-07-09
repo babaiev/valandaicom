@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import FeedItem
+from .models import AINewsItem
 
-@admin.register(FeedItem)
-class FeedItemAdmin(admin.ModelAdmin):
-    list_display = ('title', 'source', 'published_at', 'created_at')
-    list_filter = ('source',)
-    search_fields = ('title', 'summary', 'source')
+@admin.register(AINewsItem)
+class AINewsItemAdmin(admin.ModelAdmin):
+    list_display = ('title', 'source_name', 'published_at')
+    list_filter = ('source_name',)
+    search_fields = ('title', 'summary', 'source_name')

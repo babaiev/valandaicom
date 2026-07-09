@@ -119,13 +119,13 @@ export const postComment = async (slug, name, content) => {
     }
 };
 
-export const fetchNewsfeed = async () => {
+export const fetchNewsfeed = async (page = 1) => {
     try {
-        const res = await fetch(`${API_BASE_URL}/newsfeed/items/`);
+        const res = await fetch(`${API_BASE_URL}/newsfeed/items/?page=${page}`);
         return await res.json();
     } catch (error) {
         console.error("Error fetching newsfeed:", error);
-        return [];
+        return { results: [], count: 0 };
     }
 };
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import FeedItem
+from .models import AINewsItem
 
-class FeedItemSerializer(serializers.ModelSerializer):
+class AINewsItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FeedItem
+        model = AINewsItem
         fields = '__all__'
