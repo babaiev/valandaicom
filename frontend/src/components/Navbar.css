@@ -17,6 +17,15 @@
   color: var(--text-primary);
   text-decoration: none;
   letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
 }
 
 .navbar-links {
