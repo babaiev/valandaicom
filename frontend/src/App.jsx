@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -10,6 +10,16 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import NewsfeedPage from './pages/NewsfeedPage';
 import './App.css';
+
+const ConditionalFooter = () => {
+  const location = useLocation();
+  const isBlogPost = location.pathname.startsWith('/blog/') && location.pathname !== '/blog';
+  
+  if (isBlogPost) {
+    return null;
+  }
+  return <Footer />;
+};
 
 function App() {
   const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
@@ -31,7 +41,7 @@ function App() {
             <Route path="/blog/:slug" element={<BlogPostPage />} />
           </Routes>
         </main>
-        <Footer />
+        <ConditionalFooter />
         <SubscribeModal isOpen={isSubscribeOpen} onClose={() => setIsSubscribeOpen(false)} />
       </div>
     </Router>

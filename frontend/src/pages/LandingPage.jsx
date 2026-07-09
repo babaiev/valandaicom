@@ -17,7 +17,7 @@ const contentData = {
 };
 
 const LandingPage = ({ onSubscribeClick }) => {
-  const [isHonestMode, setIsHonestMode] = useState(false);
+  const [isHonestMode, setIsHonestMode] = useState(true);
   const mode = isHonestMode ? 'honest' : 'corporate';
   const data = contentData[mode];
 
@@ -43,14 +43,14 @@ const LandingPage = ({ onSubscribeClick }) => {
 
       {/* THE TOGGLE */}
       <div className="flex items-center justify-center gap-4 py-4">
-        <span className={`text-sm transition-colors ${!isHonestMode ? 'font-bold text-brand-accent' : 'font-medium text-brand-textMuted'}`}>Corporate Mode</span>
+        <span className={`text-sm transition-colors ${isHonestMode ? 'font-bold text-brand-accent' : 'font-medium text-brand-textMuted'}`}>Honest Mode</span>
         <button 
           onClick={() => setIsHonestMode(!isHonestMode)} 
           className="relative w-14 h-7 rounded-full bg-white/10 hover:bg-white/20 transition-colors focus:outline-none border border-white/[0.05]"
         >
-          <span className={`absolute left-1 top-1 w-5 h-5 rounded-full shadow-md transition-transform duration-300 ${isHonestMode ? 'translate-x-7 bg-brand-accent' : 'bg-white'}`}></span>
+          <span className={`absolute left-1 top-1 w-5 h-5 rounded-full shadow-md transition-transform duration-300 ${!isHonestMode ? 'translate-x-7 bg-brand-accent' : 'bg-white'}`}></span>
         </button>
-        <span className={`text-sm transition-colors ${isHonestMode ? 'font-bold text-brand-accent' : 'font-medium text-brand-textMuted'}`}>Honest Mode</span>
+        <span className={`text-sm transition-colors ${!isHonestMode ? 'font-bold text-brand-accent' : 'font-medium text-brand-textMuted'}`}>Corporate Mode</span>
       </div>
 
       {/* Decoding Name Grid */}
