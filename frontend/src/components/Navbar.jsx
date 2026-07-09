@@ -5,7 +5,12 @@ const Navbar = ({ onSubscribeClick }) => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/"><img src="/logo.png" alt="VAL3R11 Logo" className="navbar-icon" /><span className="logo-orange">VAL</span><span className="highlight">3R11</span></Link>
+        <Link to="/">
+          <img src="/logo.png" alt="VAL3R11 Logo" className="navbar-icon" />
+          <span className="brand-text">
+            <span className="logo-orange">VAL</span><span className="highlight">3R11</span>
+          </span>
+        </Link>
       </div>
       <ul className="navbar-links">
         <li>
