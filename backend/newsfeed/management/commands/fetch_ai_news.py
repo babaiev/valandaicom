@@ -33,17 +33,14 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write("Starting AI news fetch...")
         
-        # Cleanup routine: delete articles older than 30 days
-        cleanup_threshold = timezone.now() - timedelta(days=30)
+        # Cleanup routine: delete articles older than 131 days
+        cleanup_threshold = timezone.now() - timedelta(days=131)
         deleted_count, _ = AINewsItem.objects.filter(published_at__lt=cleanup_threshold).delete()
         if deleted_count > 0:
             self.stdout.write(f"Cleaned up {deleted_count} old articles.")
         
         items_added = 0
         items_skipped = 0
-        
-        # Freshness threshold: ignore RSS items older than 14 days
-        freshness_threshold = timezone.now() - timedelta(days=14)
 
         for feed_config in FEEDS:
             self.stdout.write(f"Fetching from {feed_config['name']}...")
@@ -72,11 +69,6 @@ class Command(BaseCommand):
                             published_at = parsed_date
                     except Exception:
                         pass
-                
-                # Skip if article is too old
-                if published_at < freshness_threshold:
-                    items_skipped += 1
-                    continue
                 
                 # Extract image (try media_content first, then check enclosures or summary)
                 image_url = None
