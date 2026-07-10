@@ -30,13 +30,18 @@ def send_batch_emails_thread(post_id):
             return
 
         site_url = os.environ.get('SITE_URL', 'https://val3r11.com')
-        post_url = f"{site_url}/blog/{post.slug}/"
+        post_url = f"{site_url}/#/blog/{post.slug}/"
         
+        # Cover image URL is likely already absolute if using Google Cloud Storage
+        cover_url = post.cover_image.url if post.cover_image else None
+        if cover_url and not cover_url.startswith('http'):
+            cover_url = f"{site_url}{cover_url}"
+            
         context = {
             'post_title': post.title,
             'post_snippet': post.content[:150] + '...',
             'post_url': post_url,
-            'post_image_url': f"{site_url}{post.cover_image.url}" if post.cover_image else None
+            'post_image_url': cover_url
         }
         
         html_content = render_to_string('emails/new_post.html', context)
