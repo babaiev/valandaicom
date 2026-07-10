@@ -8,7 +8,22 @@ import path from 'path';
 
 const getVersion = () => {
   try {
-    return fs.readFileSync(path.resolve(__dirname, '../VERSION'), 'utf-8').trim();
+    const latestEpic = execSync('git log -n 1 --grep="^epic:" --format="%H"').toString().trim();
+    let epicCount = '0';
+    let featCount = '0';
+    let fixCount = '0';
+    
+    if (latestEpic) {
+      epicCount = execSync('git log --grep="^epic:" --oneline | wc -l').toString().trim();
+      featCount = execSync(`git log ${latestEpic}..HEAD --grep="^feat:" --oneline | wc -l`).toString().trim();
+      fixCount = execSync(`git log ${latestEpic}..HEAD --grep="^fix:\\|^chore:\\|^refactor:\\|^style:\\|^docs:\\|^test:" --oneline | wc -l`).toString().trim();
+    } else {
+      featCount = execSync('git log --grep="^feat:" --oneline | wc -l').toString().trim();
+      fixCount = execSync('git log --grep="^fix:\\|^chore:\\|^refactor:\\|^style:\\|^docs:\\|^test:" --oneline | wc -l').toString().trim();
+    }
+    
+    // Base version is 3 (x), epicCount is y, featCount is a, fixCount is bb
+    return `3.${epicCount}.${featCount}.${fixCount}`;
   } catch (e) {
     return '3.0.0.00';
   }
