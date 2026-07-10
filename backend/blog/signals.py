@@ -29,7 +29,7 @@ def send_batch_emails_thread(post_id):
         if not active_subscribers or not BREVO_API_KEY:
             return
 
-        site_url = os.environ.get('SITE_URL', 'https://val3r11.com')
+        site_url = os.environ.get('SITE_URL', 'https://valandai.com')
         post_url = f"{site_url}/#/blog/{post.slug}/"
         
         # Cover image URL is likely already absolute if using Google Cloud Storage
@@ -58,7 +58,7 @@ def send_batch_emails_thread(post_id):
             })
             
         payload = {
-            "sender": {"name": "VAL3R11", "email": "info@val3r11.com"},
+            "sender": {"name": "VAL3R11", "email": "info@valandai.com"},
             "subject": f"New Post: {post.title}",
             "htmlContent": html_content,
             "messageVersions": message_versions

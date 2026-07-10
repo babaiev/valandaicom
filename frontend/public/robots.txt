@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://val3r11.com/sitemap.xml
+Sitemap: https://valandai.com/sitemap.xml
