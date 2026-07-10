@@ -19,7 +19,7 @@ const Navbar = ({ onSubscribeClick }) => {
         <Link to="/" className="flex items-center gap-2 group" onClick={closeMobileMenu}>
           <img src="/logo.png" alt="ValAndAI Logo" className="w-8 h-8 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105" />
           <span className="text-xl font-extrabold tracking-wider text-white">
-            VAL<span className="text-brand-accent transition-all duration-300 group-hover:glow-text">3</span>R11
+            ValAnd<span className="text-brand-accent transition-all duration-300 group-hover:glow-text">AI</span>
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
         </Link>
