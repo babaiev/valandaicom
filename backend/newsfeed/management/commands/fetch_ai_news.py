@@ -20,10 +20,6 @@ FEEDS = [
     {
         'name': 'MarkTechPost',
         'url': 'https://www.marktechpost.com/category/artificial-intelligence/feed/'
-    },
-    {
-        'name': 'The Verge',
-        'url': 'https://www.theverge.com/rss/index.xml'
     }
 ]
 
@@ -38,6 +34,11 @@ class Command(BaseCommand):
         deleted_count, _ = AINewsItem.objects.filter(published_at__lt=cleanup_threshold).delete()
         if deleted_count > 0:
             self.stdout.write(f"Cleaned up {deleted_count} old articles.")
+            
+        # Hard cleanup: Remove any old articles from The Verge
+        verge_deleted_count, _ = AINewsItem.objects.filter(source_name='The Verge').delete()
+        if verge_deleted_count > 0:
+            self.stdout.write(f"Cleaned up {verge_deleted_count} legacy The Verge articles.")
         
         items_added = 0
         items_skipped = 0
