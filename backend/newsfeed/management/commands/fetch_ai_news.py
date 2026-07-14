@@ -15,7 +15,7 @@ FEEDS = [
     },
     {
         'name': 'VentureBeat',
-        'url': 'https://venturebeat.com/category/ai/feed/'
+        'url': 'https://venturebeat.com/feed/'
     },
     {
         'name': 'MarkTechPost',

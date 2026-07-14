@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>18/24</span>
+                <span class='fraction'>16/20</span>
             </div>
         
             
@@ -150,7 +150,17 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -169,6 +179,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,10 +248,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { fetchBlogPosts } from '../api';
+import { Eye, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react';
 &nbsp;
 const BlogPage = () =&gt; {
   const [posts, setPosts] = useState([]);
@@ -256,64 +275,72 @@ const BlogPage = () =&gt; {
   }, []);
 &nbsp;
   return (
-    &lt;div className="page-container fade-in"&gt;
+    &lt;div className="space-y-12 animate-fade-in"&gt;
       &lt;Helmet&gt;
-        &lt;title&gt;VAL3R11 | Blog&lt;/title&gt;
-        &lt;meta name="description" content="Thoughts, tutorials, and articles on software engineering by VAL3R11." /&gt;
+        &lt;title&gt;ValAndAI | Blog&lt;/title&gt;
+        &lt;meta name="description" content="Thoughts, tutorials, and articles on software engineering by ValAndAI." /&gt;
       &lt;/Helmet&gt;
-      &lt;header className="page-header"&gt;
-        &lt;h1&gt;My Blog&lt;/h1&gt;
-        &lt;p&gt;Thoughts, tutorials, and articles on software engineering.&lt;/p&gt;
+      
+      &lt;header className="text-center max-w-3xl mx-auto space-y-4 pt-10"&gt;
+        &lt;h1 className="text-5xl font-extrabold tracking-tight text-white"&gt;My Blog&lt;/h1&gt;
+        &lt;p className="text-brand-textMuted text-lg"&gt;Thoughts, tutorials, and articles on software engineering.&lt;/p&gt;
       &lt;/header&gt;
       
       {loading ? (
-        &lt;div style={{ textAlign: 'center', marginTop: '2rem' }}&gt;Loading posts...&lt;/div&gt;
+        &lt;div className="text-center text-brand-textMuted mt-8"&gt;Loading posts...&lt;/div&gt;
       ) : (
-        &lt;div className="blog-grid"&gt;
+        &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"&gt;
           {posts.length &gt; 0 ? posts.map((post) =&gt; {
             const reaction = localStorage.getItem(`reaction_${post.slug}`);
             return (
               &lt;article 
                 key={post.id} 
-                className="card blog-card" 
+                className="bg-brand-card/60 backdrop-blur border-glow rounded-3xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-2 cursor-pointer group" 
 <span class="fstat-no" title="function not covered" >                onClick={() =&gt; <span class="cstat-no" title="statement not covered" >w</span>indow.location.hash = `#/blog/${post.slug}`}</span>
-                style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
               &gt;
-                {post.cover_image &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;img src={post.cover_image} alt={post.title} style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }} /&gt;}</span>
-                &lt;div className="blog-meta"&gt;
-                  &lt;span className="date"&gt;{new Date(post.published_at || post.created_at).toLocaleDateString()}&lt;/span&gt;
-                  &lt;div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem', color: 'var(--text-secondary)' }}&gt;
-                    &lt;span&gt;👁 {post.view_count || 0}&lt;/span&gt;
-                    &lt;span style={{ color: reaction === 'like' ? <span class="branch-0 cbranch-no" title="branch not covered" >'var(--accent-color)' : '</span>inherit', fontWeight: reaction === 'like' ? <span class="branch-0 cbranch-no" title="branch not covered" >'bold' : '</span>normal' }}&gt;👍 {post.likes || 0}&lt;/span&gt;
-                    &lt;span style={{ color: reaction === 'dislike' ? <span class="branch-0 cbranch-no" title="branch not covered" >'#ff4d4f' : '</span>inherit', fontWeight: reaction === 'dislike' ? <span class="branch-0 cbranch-no" title="branch not covered" >'bold' : '</span>normal' }}&gt;👎 {post.dislikes || 0}&lt;/span&gt;
-                    &lt;span&gt;💬 {post.comment_count || 0}&lt;/span&gt;
+                {post.cover_image &amp;&amp; (
+<span class="branch-1 cbranch-no" title="branch not covered" >                  &lt;div className="rounded-2xl overflow-hidden mb-6 h-48"&gt;</span>
+                    &lt;img src={post.cover_image} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /&gt;
+                  &lt;/div&gt;
+                )}
+                &lt;div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider mb-4"&gt;
+                  &lt;span className="text-brand-accent"&gt;{new Date(post.published_at || post.created_at).toLocaleDateString()}&lt;/span&gt;
+                  &lt;div className="flex items-center gap-3 text-brand-textMuted"&gt;
+                    &lt;span className="flex items-center gap-1"&gt;&lt;Eye className="w-3.5 h-3.5" /&gt; {post.view_count || 0}&lt;/span&gt;
+                    &lt;span className={`flex items-center gap-1 ${reaction === 'like' ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-brand-accent font-bold' : '</span>'}`}&gt;&lt;ThumbsUp className="w-3.5 h-3.5" /&gt; {post.likes || 0}&lt;/span&gt;
+                    &lt;span className={`flex items-center gap-1 ${reaction === 'dislike' ? <span class="branch-0 cbranch-no" title="branch not covered" >'text-red-500 font-bold' : '</span>'}`}&gt;&lt;ThumbsDown className="w-3.5 h-3.5" /&gt; {post.dislikes || 0}&lt;/span&gt;
+                    &lt;span className="flex items-center gap-1"&gt;&lt;MessageSquare className="w-3.5 h-3.5" /&gt; {post.comment_count || 0}&lt;/span&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                &lt;h2&gt;{post.title}&lt;/h2&gt;
-                &lt;p&gt;{post.content.substring(0, 150)}...&lt;/p&gt;
-                &lt;div style={{ marginTop: '1rem', color: 'var(--accent-color)', fontWeight: 'bold' }}&gt;Read Article →&lt;/div&gt;
+                &lt;h2 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors line-clamp-2"&gt;{post.title}&lt;/h2&gt;
+                &lt;p className="text-brand-textMuted text-sm line-clamp-3 mb-6 flex-grow"&gt;
+                  {post.content.replace(/&lt;[^&gt;]+&gt;/g, '').replace(/&amp;nbsp;/g, ' ').substring(0, 150)}...
+                &lt;/p&gt;
+                &lt;div className="text-brand-accent font-bold text-sm uppercase tracking-wider mt-auto inline-flex items-center gap-2"&gt;
+                  Read Article &lt;span className="group-hover:translate-x-1 transition-transform"&gt;→&lt;/span&gt;
+                &lt;/div&gt;
               &lt;/article&gt;
             );
           }) : (
 <span class="branch-1 cbranch-no" title="branch not covered" >            &lt;&gt;</span>
               {/* Fallback Mock Data */}
-              &lt;article className="card blog-card"&gt;
-                &lt;div className="blog-meta"&gt;
-                  &lt;span className="tag"&gt;Engineering&lt;/span&gt;
-                  &lt;span className="date"&gt;Jul 1, 2026&lt;/span&gt;
+              &lt;article className="bg-brand-card/60 backdrop-blur border-glow rounded-3xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-2 group"&gt;
+                &lt;div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider mb-4"&gt;
+                  &lt;span className="px-3 py-1.5 rounded-full bg-brand-accent/10 text-brand-accent"&gt;Engineering&lt;/span&gt;
+                  &lt;span className="text-brand-textMuted"&gt;Jul 1, 2026&lt;/span&gt;
                 &lt;/div&gt;
-                &lt;h2&gt;Building Scalable Backends with Django&lt;/h2&gt;
-                &lt;p&gt;A deep dive into architecture patterns and performance optimizations when scaling Django applications...&lt;/p&gt;
-                &lt;button className="read-more" style={{ marginTop: '1rem', background: 'var(--accent-gradient)', border: 'none', padding: '0.5rem 1rem', color: 'white', borderRadius: '4px', cursor: 'pointer' }}&gt;Read Article&lt;/button&gt;
+                &lt;h2 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors"&gt;Building Scalable Backends with Django&lt;/h2&gt;
+                &lt;p className="text-brand-textMuted text-sm mb-6 flex-grow"&gt;A deep dive into architecture patterns and performance optimizations when scaling Django applications...&lt;/p&gt;
+                &lt;button className="py-3 px-6 rounded-2xl bg-brand-accent/10 text-brand-accent font-bold transition-all duration-300 hover:bg-brand-accent hover:text-black"&gt;Read Article&lt;/button&gt;
               &lt;/article&gt;
-              &lt;article className="card blog-card"&gt;
-                &lt;div className="blog-meta"&gt;
-                  &lt;span className="tag"&gt;Frontend&lt;/span&gt;
-                  &lt;span className="date"&gt;Jun 20, 2026&lt;/span&gt;
+              &lt;article className="bg-brand-card/60 backdrop-blur border-glow rounded-3xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-2 group"&gt;
+                &lt;div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider mb-4"&gt;
+                  &lt;span className="px-3 py-1.5 rounded-full bg-brand-accent/10 text-brand-accent"&gt;Frontend&lt;/span&gt;
+                  &lt;span className="text-brand-textMuted"&gt;Jun 20, 2026&lt;/span&gt;
                 &lt;/div&gt;
-                &lt;h2&gt;Why I chose React and Vite in 2026&lt;/h2&gt;
-                &lt;p&gt;The frontend ecosystem is always changing. Here is a breakdown of why this stack remains my go-to choice...&lt;/p&gt;
-                &lt;button className="read-more" style={{ marginTop: '1rem', background: 'var(--accent-gradient)', border: 'none', padding: '0.5rem 1rem', color: 'white', borderRadius: '4px', cursor: 'pointer' }}&gt;Read Article&lt;/button&gt;
+                &lt;h2 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors"&gt;Why I chose React and Vite in 2026&lt;/h2&gt;
+                &lt;p className="text-brand-textMuted text-sm mb-6 flex-grow"&gt;The frontend ecosystem is always changing. Here is a breakdown of why this stack remains my go-to choice...&lt;/p&gt;
+                &lt;button className="py-3 px-6 rounded-2xl bg-brand-accent/10 text-brand-accent font-bold transition-all duration-300 hover:bg-brand-accent hover:text-black"&gt;Read Article&lt;/button&gt;
               &lt;/article&gt;
             &lt;/&gt;
           )}
@@ -331,7 +358,7 @@ export default BlogPage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-08T16:57:39.721Z
+                at 2026-07-14T14:40:26.997Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
