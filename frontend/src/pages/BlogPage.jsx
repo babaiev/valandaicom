@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { fetchBlogPosts } from '../api';
 import { Eye, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react';
@@ -7,6 +7,7 @@ import { Eye, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react';
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,7 +40,7 @@ const BlogPage = () => {
               <article 
                 key={post.id} 
                 className="bg-brand-card/60 backdrop-blur border-glow rounded-3xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-2 cursor-pointer group" 
-                onClick={() => window.location.hash = `#/blog/${post.slug}`}
+                onClick={() => navigate(`/blog/${post.slug}`)}
               >
                 {post.cover_image && (
                   <div className="rounded-2xl overflow-hidden mb-6 h-48">
